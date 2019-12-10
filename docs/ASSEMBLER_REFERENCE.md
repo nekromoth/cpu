@@ -12,15 +12,14 @@ That means it only accepts a certain amount of input per line.
     <CONSTANT>      <COMMENT> <NEWLINE>
     <LABEL>         <COMMENT> <NEWLINE>
 
-> \<COMMENTS> are NOT required but can be added at will.
-
+`<COMMENTS>` are not required but can be added at will.
 
 Also whitespaces matter. The assembler does not make a difference 
-between one or more whitespaces BUT it does between one or **none**!
+between one or more whitespaces BUT it does between one or **none**.
 
     movr0,r0        # this would be not accepted by the assembler
     mov r0, r0      # this will be accepted by the assembler
-    mov r0    r0    # this too
+    mov r0,    r0   # this too
 
 
 ### COMMENTS
@@ -48,7 +47,7 @@ Operands can be registers, integer-literals, labels or constants.
 ---
 
 ### LITERALS
-A literal can be a string or an integer:
+A literal can be a string or an integer.
 
 **String-literals** start and end with QUOTES.
 
@@ -85,8 +84,8 @@ SPACE, 16bit integer-literal and a NEWLINE.
 ---
 
 ### IDENTIFIERS
-Identifiers start with a letter. Subsequent characters
-can be alphanumeric or a UNDERLINE.
+Identifiers start with a letter, subsequent characters
+can be alphanumeric or an UNDERLINE.
     
     identifier          # valid
     Identifier12
@@ -109,9 +108,9 @@ Labels assign a 16bit (relative) address to an identifer.
 
 ### CONSTANTS
 Constants prefixed by a PERCENT followed by a SPACE, exist 
-only in assembler source-code. They act as a absolute-addresses 
-or immediate value when assembled - and used.
-Exessive bits are cut of to fit the destination.
+only in assembler source-code. They act as absolute-addresses 
+or immediate valueis when assembled - and used.
+Exessive bits are cut off to fit the destination.
 
         % <identifier> <int-literal>
 
@@ -123,7 +122,7 @@ Exessive bits are cut of to fit the destination.
 Data-directives prefixed by a DOLLAR-SIGN followed by a SPACE, 
 allocate data (literals) in file-memory. The end of the data-directive will 
 be indicated trough either a COMMENT or a NEWLINE.
-Literals are sperated by a COMMA(,).
+Literals are sperated by a COMMA.
 
     $ <literal>, <literal>, ..., <literal>
     
