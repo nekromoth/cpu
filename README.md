@@ -1,8 +1,8 @@
-# m16 Assembler Reference
+## ASSEMBLER REFERENCE
 
 
 ### COMMENTS
-Comments are prefixed with a HASH(#) and end with NEWLINE.
+Comments are prefixed with a HASH and end with NEWLINE.
 They are not interpreted by the assembler.
 
 	mov r0, r1    # this is a comment
@@ -28,7 +28,7 @@ Operands can be registers, integer-literals, labels or constants.
 ### LITERALS
 A literal can be a string or an integer:
 
-**String-literals** start and end with QUOTES(").
+**String-literals** start and end with QUOTES.
 
 	<str-literal>
 
@@ -54,8 +54,8 @@ Escaped characters within a string are:
 
 ### ORIGIN DIRECTIVES
 Origin-directives tell the assembler where instructions and data are 
-located in file-memory. They are prefixed with an AT(@) followed by a 
-SPACE( ), 16bit integer-literal and a NEWLINE.
+located in file-memory. They are prefixed with an AT followed by a 
+SPACE, 16bit integer-literal and a NEWLINE.
     
     @ <int-literal>
 
@@ -64,7 +64,7 @@ SPACE( ), 16bit integer-literal and a NEWLINE.
 
 ### IDENTIFIERS
 Identifiers start with a letter. Subsequent characters
-can be alphanumeric or a UNDERLINE(_).
+can be alphanumeric or a UNDERLINE.
 	
 	identifier			# valid
 	Identifier12
@@ -86,9 +86,9 @@ Labels assign a 16bit (relative) address to an identifer.
 ---
 
 ### CONSTANTS
-Constants prefixed by a PERCENT(%) followed by a SPACE( ) exist 
+Constants prefixed by a PERCENT followed by a SPACE, exist 
 only in assembler source-code. They act as a absolute-addresses 
-or immediate value when assembled (and used).
+or immediate value when assembled - and used.
 Exessive bits are cut of to fit the destination.
 
 		% <identifier> <int-literal>
@@ -98,7 +98,7 @@ Exessive bits are cut of to fit the destination.
 ---
 
 ### DATA DIRECTIVES
-Data-directives prefixed by a DOLLAR-SIGN($) followed by a SPACE( ), 
+Data-directives prefixed by a DOLLAR-SIGN followed by a SPACE, 
 allocate data (literals) in file-memory. The end of the data-directive will 
 be indicated trough either a COMMENT or a NEWLINE.
 Literals are sperated by a COMMA(,).
