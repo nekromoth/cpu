@@ -41,24 +41,24 @@
 	ld   D, [R]		load from IS:R into D
 	psh  S			push S onto stack
 	pop  D			pop D from stack
-	add  D, S		signed addition with registers + carry
-	add  D, I		signed addition with register + immediate + carry
-	sub  D, S		signed subtraction with registers - carry
-	sub  D, I		signed subtraction with register - immediate + carry
-	mul  D, S   	signed multiplication with registers 
-	mul  D, I		signed multiplication with register * immediate	
-	div  D, S		signed division with registers 
-	div  D, I		signed division with register / immediate
+	add  D, S		signed addition  D = D + S + C
+	add  D, I		signed addition  D = D + I + C
+	sub  D, S		signed subtraction  D = D - S - C
+	sub  D, I		signed subtraction  D = D - I - C
+	mul  D, S   	signed multiplication  D = D * S
+	mul  D, I		signed multiplication  D = D * I
+	div  D, S		signed division  D = D / S 
+	div  D, I		signed division  D = D / I
 	cmp  S, s		compare registers
 	cmp  S, I		compare register to immediate
-	and  D, S		logical AND with registers
-	and  D, I		logical AND with register & immediate
-	or   D, S		logical OR with registers
-	or   D, I		logical OR with register | immediate
-	xor  D, S		logical XOR with registers
-	xor  D, I		locical XOR with register ^ immediate
-	lsh  D, I		logical left-shift by immediate
-	rsh  D, I		logical right-shift by immediate
+	and  D, S		logical AND  D = D & S
+	and  D, I		logical AND  D = D & I
+	or   D, S		logical OR  D = D | S
+	or   D, I		logical OR  D = D | I
+	xor  D, S		logical XOR  D = D ^ S
+	xor  D, I		locical XOR  D = D ^ I
+	lsh  D, I		logical left-shift D = D << I
+	rsh  D, I		logical right-shift D = D >> I
 	hlt             halt processor
 	jmp A           jump to A
 	jmp H:L        	jump to H:L
@@ -97,11 +97,19 @@ PREREQUESITES
 	symbols			!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
 	non-printable	<space> <tab> <newline>
 
+INSTUCTION
+	<instruction> 
+	<instruction> <operand> <operand>
+
 LITERAL
-	Begins with a letter, subsequent characters can be a letter or a digit.
+	Begins with a letter, subsequent characters can be alphanummeric.
 
 SLITERAL	(String-literal)
-	A string inside "
+	A string inside " "
+	
+	\n == NEWLINE
+	\\ == \
+	\" == "
 
 ILITERAL	(Integer-literal)
 	Can be:
@@ -140,13 +148,12 @@ ORIGIN
 
 @ 0x0000
 	Main:	
-		
 		jmp Copy_array
 	hlt
 
 	Copy_array:
-		psh	RS
-		psh RP
+		psh	 RS
+		psh  RP
 
 		# r1 	Counter 
 		# r2	segment of new array
@@ -166,12 +173,13 @@ ORIGIN
 			add  r1, 1				# increment counter
 			cmp  r1, ARRAY_LENGHT	# counter == ARRAY_LENGTH ? loop : end
 			
-			je Copy_array_loop_end
-			jmp Copy_array_loop
-		Copy_array_loop_end:
-			pop RS
-			pop RP
-			ret
+		je   Copy_array_loop_end
+		jmp  Copy_array_loop
+
+	Copy_array_loop_end:
+		pop  RS
+		pop  RP
+	ret
 			
 array:
 	$ 100, -12, 0b1000_1111, 0xf0fe
