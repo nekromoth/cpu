@@ -28,11 +28,13 @@ Operands can be registers, integer-literals, labels or constants.
 A literal can be a string or an integer.
 
 **String-literals** start and end with QUOTES(").
+
 	<str-literal>
 
 	"this is a string literal"
 
 Escaped characters within a string are:
+	
 	\\  =  BACKSLASH(\) 
 	\n  =  NEWLINE
 	\"  =  QUOTES(")
