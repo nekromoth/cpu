@@ -107,3 +107,57 @@ Literals are sperated by a COMMA(,).
 	
 	$ "Hello World", 0
 ---
+
+## COMMENTED ASSEMBLER EXAMPLE
+	# COPY CONTENTS FROM ARRAY TO NEW_ARRAY LOCATED AT ANOTHER SEGMENT
+	
+	% ARRAY_LENGTH		8			# length of source and destination array
+	% NEW_ARRAY_SEG		1			# segment of the new array
+	% NEW_ARRAY_PTR		0xfff0		# pointer of the new array
+
+	@ 0x0000						# start at address IS:0000
+
+		Main:						# main function
+			jmp Copy_array			# jump to copy_array function
+		hlt							# halt the cpu when copy_array fuction is done
+		
+
+		Copy_array:					# copy array fuction
+			
+			# OVERVIEW of what registers are in use
+			# r1 	Counter 
+			# r2	segment of new array
+			# r3	pointer of new array
+			# r4	pointer of old array
+			# r5 	holds the data to copy
+			
+			psh	 RS					# save return address (to main)
+			psh  RP
+		
+			# set up registers like described in the OVERVIEW
+			set  r1, 0
+			set  r2, NEW_ARRAY_SEG
+			set  r3, NEW_ARRAY_PTR
+			set	 r4  array
+			
+
+			Copy_array_loop:
+				ld   r5, [IS:r4]		# load from old array
+				str  [r2:r3], r5		# store in new array
+				
+				add  r1, 1				# increment counter
+				cmp  r1, ARRAY_LENGHT	# counter == ARRAY_LENGTH ? loop : end
+				
+				je   Copy_array_loop_end	# jump if counter == ARRAY_LENGTH
+				jmp  Copy_array_loop		# jump if counter != ARRAY_LENGTH
+
+			Copy_array_loop_end:
+				pop  RS			# load return address
+				pop  RP		
+				ret				# and return
+					
+	array:			# the array to copy
+		$ 100 
+		$ 200
+		$ 300, 400
+		$ 500, 600, 700, 800
