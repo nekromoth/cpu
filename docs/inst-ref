@@ -1,0 +1,111 @@
+r0	General Purpose Register
+r1	General Purpose Register
+r2	General Purpose Register
+r3	General Purpose Register
+r4	General Purpose Register
+r5	General Purpose Register
+r6	General Purpose Register
+r7	General Purpose Register
+XR	Extended Result Reigster
+FR  Flag Register 				SZVC
+SS	Stack Segment
+SP	Stack Pointer
+IS  Instruction Segment
+IP	Instruction Pointer
+RS	Return Segment
+RP	Return Pointer
+
+HARDWARE INSTRUCTIONS:
+	mov  D, S		move data from S to D
+	set  D, I		set D to I
+	str  [A], S		store S in A
+	str  [H:L], S	store S in H:L
+	str  [R], S		store S in IS:R
+	ld   D, [A]		load from A into D
+	ld   D, [H:L]	load from H:L into D
+	ld   D, [R]		load from IS:R into D
+	psh  S			push S onto stack
+	pop  D			pop D from stack
+	add  D, S		signed addition with registers + carry
+	add  D, I		signed addition with register + immediate + carry
+	sub  D, S		signed subtraction with registers - carry
+	sub  D, I		signed subtraction with register - immediate + carry
+	mul  D, S   	signed multiplication with registers 
+	mul  D, I		signed multiplication with register * immediate	
+	div  D, S		signed division with registers 
+	div  D, I		signed division with register / immediate
+	cmp  S, s		compare registers
+	cmp  S, I		compare register to immediate
+	and  D, S		logical AND with registers
+	and  D, I		logical AND with register & immediate
+	or   D, S		logical OR with registers
+	or   D, I		logical OR with register | immediate
+	xor  D, S		logical XOR with registers
+	xor  D, I		locical XOR with register ^ immediate
+	lsh  D, I		logical left-shift by immediate
+	rsh  D, I		logical right-shift by immediate
+	hlt             halt processor
+	jmp A           jump to A
+	jmp H:L        	jump to H:L
+	jmp R          	jump to IS:R
+	jc  R          	jump to IS:R if carry
+	jnc R          	jump to IS:R if not carry
+	jv  R          	jump to IS:R if overflow
+	jnv R          	jump to IS:R if not overflow
+	je  R          	jump to IS:R if equal
+	jne R          	jump to IS:R if not equal
+	js  R          	jump to IS:R if negative
+	jns R          	jump to IS:R if positive
+	ja  R          	jump to IS:R if "above" greater (unsigned)
+	jna R          	jump to IS:R if "not above" not greater (unsigned)
+	jb  R          	jump to IS:R if "below" less (unsigned)
+	jnb R          	jump to IS:R if "not below" not less ()
+	jg  R          	jump to IS:R if greater (signed)
+	jng R          	jump to IS:R if not greater (signed)
+	jl  R          	jump to IS:R if less (signed)
+	jnl R          	jump to IS:R if not less (signed)
+
+SOFTWARE INSTRUCTIONS:
+	ret				"return"  same as  jmp  RS:RP
+
+
+PREREQUESITES
+	digits			0123456789
+	letters			abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRST
+	alphanummeric	(digits + letters)
+	hexletters		abcdefABCDEF
+	hexnumber		(digits + hexletters)
+	symbols			!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+	non-printable	<space> <tab> <newline>
+
+LITERAL
+	Begins with a letter, subsequent characters can be a letter or a digit.
+
+SLITERAL	(String-literal)
+	A string inside "
+
+ILITERAL	(Integer-literal)
+	Can be:
+		Binary		0b1	 	0b11_11	0b_0_0_0_1
+		Decimal 	0	 	-1		+1
+		Hexadecimal	0x0		0xFFff	0x0001
+
+COMMENT
+	Comment your code
+	# comment
+
+CONSTANT
+	A constant is converted to a immediate or absolute-address.
+	% <sliteral> <iliteral>
+
+DATA-DIRECTIVE
+	A data-directive write provided values into file-memory
+	$ <i/sliteral>, <i/sliteral>, ...,<i/sliteral>
+
+LABEL
+	Holds a relative address.
+	<literal>:
+
+ORIGIN
+	Tell your compiler where certain instructions are located
+	@ <sliteral>
