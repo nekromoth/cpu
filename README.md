@@ -1,16 +1,17 @@
 # m16 Assembler Reference
 
 
-### Comments
+### COMMENTS
 Comments are prefixed with a HASH(#) and end with NEWLINE.
+They are not interpreted by the assembler.
 
 	mov r0, r1    # this is a comment
 	mov r1, r0    # this is another comment
 ---
 
-### Statements
+### STATEMENTS
 Statements contain one instruction and up to three operands.
-A statement ends with a comment or a NEWLINE.
+A statement ends with a COMMENT or a NEWLINE.
 Operands can be registers, integer-literals, labels or constants.
 
 	<instruction> 
@@ -24,8 +25,8 @@ Operands can be registers, integer-literals, labels or constants.
 	str [r0:r1], S
 ---
 
-### Literals 
-A literal can be a string or an integer.
+### LITERALS
+A literal can be a string or an integer:
 
 **String-literals** start and end with QUOTES(").
 
@@ -39,7 +40,7 @@ Escaped characters within a string are:
 	\n  =  NEWLINE
 	\"  =  QUOTES(")
 
-**Integer-literals** types are Binary, Decimal and Hexadecimal
+**Integer-literals** can be Binary, Decimal or Hexadecimal.
 	
 	<int-literal>
 
@@ -51,18 +52,18 @@ Escaped characters within a string are:
 	0xabcf
 --- 
 
-### Origin-directives
+### ORIGIN DIRECTIVES
 Origin-directives tell the assembler where instructions and data are 
 located in file-memory. They are prefixed with an AT(@) followed by a 
 SPACE( ), 16bit integer-literal and a NEWLINE.
     
-    @ <integer-literal>
+    @ <int-literal>
 
     @ 0xFFEE 
 ---
 
-### Identifiers
-Identifiers should start with a letter and subsequent characters
+### IDENTIFIERS
+Identifiers start with a letter. Subsequent characters
 can be alphanumeric or a UNDERLINE(_).
 	
 	identifier			# valid
@@ -74,7 +75,7 @@ can be alphanumeric or a UNDERLINE(_).
 	i den ti fier
 ---
 
-### Labels
+### LABLES
 Labels assign a 16bit (relative) address to an identifer.
 
 	<identifier>:
@@ -84,18 +85,19 @@ Labels assign a 16bit (relative) address to an identifer.
 		jmp loop
 ---
 
-### Constants
-Constants exist only in the assembler source-code. They act as a 
-absolute-addresses or immediate value when assembled (and used).
+### CONSTANTS
+Constants prefixed by a PERCENT(%) followed by a SPACE( ) exist 
+only in assembler source-code. They act as a absolute-addresses 
+or immediate value when assembled (and used).
 Exessive bits are cut of to fit the destination.
 
-		% <identifier> <integer-literal>
+		% <identifier> <int-literal>
 
 		% VAR20bits 0xF00FF
-		set r0, VAR20bits 		# r0 will be 0x00FF / NOT 0xF00FF !!
+		set r0, VAR20bits 		# r0 will be 0x00FF   NOT 0xF00FF !!
 ---
 
-### Data-directives
+### DATA DIRECTIVES
 Data-directives prefixed by a DOLLAR-SIGN($) followed by a SPACE( ), 
 allocate data (literals) in file-memory. The end of the data-directive will 
 be indicated trough either a COMMENT or a NEWLINE.
