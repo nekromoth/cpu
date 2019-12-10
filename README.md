@@ -27,15 +27,17 @@ Operands can be registers, integer-literals, labels or constants.
 ### Literals 
 A literal can be a string or an integer.
 
-**String-literals**
-String-literals start and end with QUOTES(").
-
+**String-literals** start and end with QUOTES(").
 	<str-literal>
 
 	"this is a string literal"
 
-**Integer-literals**
-Supported integer types are Binary, Decimal and Hexadecimal
+Escaped characters within a string are:
+	\\  =  BACKSLASH(\) 
+	\n  =  NEWLINE
+	\"  =  QUOTES(")
+
+**Integer-literals** types are Binary, Decimal and Hexadecimal
 	
 	<int-literal>
 
@@ -57,28 +59,27 @@ SPACE( ) a 16 bit integer-literal and a NEWLINE.
     @ 0xFFEE 
 ---
 
+### Identifiers
+Identifiers should start with a letter and subsequent characters
+can be alphanumeric or a UNDERLINE(_).
+	
+	identifier			# valid
+	Identifier
+	Id3nt1f13r
+
+	1dentifier			# invalid
+	identifier$!"§		
+	i den ti fier
+---
 
 ### Labels
 Labels assign a 16bit (relative) address to an identifer.
-The identifier should start with a letter and subsequent characters
-can be alphanumeric.
 
 	<identifier>:
 		<instuction> <label>
 
 	loop:
 		jmp loop
----
-
-### Data-directives
-Data-directives prefixed by a DOLLAR-SIGN($) followed by a SPACE( ), 
-allocate data (literals) in file-memory. The end of the data-directive will 
-be indicated trough either a COMMENT or a NEWLINE.
-Literals are sperated by a COMMA(,).
-
-	$ <literal>, <literal>, ..., <literal>
-	
-	$ "Hello World", 0
 ---
 
 ### Constants
@@ -91,4 +92,15 @@ are cut of to fit the destination.
 
 		% VAR20bits 0xF00FF
 		set r0, VAR20bits 		# r0 will be 0x00FF / NOT 0xF00FF !!
+---
+
+### Data-directives
+Data-directives prefixed by a DOLLAR-SIGN($) followed by a SPACE( ), 
+allocate data (literals) in file-memory. The end of the data-directive will 
+be indicated trough either a COMMENT or a NEWLINE.
+Literals are sperated by a COMMA(,).
+
+	$ <literal>, <literal>, ..., <literal>
+	
+	$ "Hello World", 0
 ---
