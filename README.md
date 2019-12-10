@@ -46,7 +46,7 @@ Escaped characters within a string are:
 	0b00001111
 	0b0000_1111_0000_1111		# for readabillity with UNDERLINE(_)
 	65535
-	-32000						# decimal numbers can be negative
+	-32000				# decimal numbers can be negative
 	0xFF54
 	0xabcf
 --- 
