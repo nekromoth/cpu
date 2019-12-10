@@ -54,7 +54,7 @@ Escaped characters within a string are:
 ### Origin-directives
 Origin-directives tell the assembler where instructions and data are 
 located in file-memory. They are prefixed with an AT(@) followed by a 
-SPACE( ) a 16 bit integer-literal and a NEWLINE.
+SPACE( ), 16bit integer-literal and a NEWLINE.
     
     @ <integer-literal>
 
@@ -66,8 +66,8 @@ Identifiers should start with a letter and subsequent characters
 can be alphanumeric or a UNDERLINE(_).
 	
 	identifier			# valid
-	Identifier
-	Id3nt1f13r
+	Identifier12
+	Id3_nt1f13r_
 
 	1dentifier			# invalid
 	identifier$!"§		
@@ -86,9 +86,8 @@ Labels assign a 16bit (relative) address to an identifer.
 
 ### Constants
 Constants exist only in the assembler source-code. They act as a 
-absolute-addresses or immediate value when assembled.
-When the integer-literal is bigger than the intended size the exessive bits
-are cut of to fit the destination.
+absolute-addresses or immediate value when assembled (and used).
+Exessive bits are cut of to fit the destination.
 
 		% <identifier> <integer-literal>
 
