@@ -1,6 +1,28 @@
 ## ASSEMBLER REFERENCE
 
 
+### PREFACE
+This assembler is a "per-line" oriented assembler. 
+That means it only accepts a certain amount of input per line.
+	
+	<COMMENT> 		<NEWLINE>
+	<STATEMENT> 	<COMMENT> <NEWLINE>
+	<ORIGIN> 		<COMMENT> <NEWLINE>
+	<DATADIRECTIVE> <COMMENT> <NEWLINE>
+	<CONSTANT> 		<COMMENT> <NEWLINE>
+	<LABEL> 		<COMMENT> <NEWLINE>
+
+> <COMMENTS> are NOT required but can be added at will.
+
+
+Also whitespaces matter. The assembler does not make a difference 
+between one or more whitespaces BUT it does between one or **none**!
+
+	movr0,r0		# this would be not accepted by the assembler
+	mov r0, r0		# this will be accepted by the assembler
+	mov r0    r0	# this too
+
+
 ### COMMENTS
 Comments are prefixed with a HASH and end with NEWLINE.
 They are not interpreted by the assembler.
