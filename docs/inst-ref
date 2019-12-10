@@ -1,21 +1,36 @@
-r0	General Purpose Register
-r1	General Purpose Register
-r2	General Purpose Register
-r3	General Purpose Register
-r4	General Purpose Register
-r5	General Purpose Register
-r6	General Purpose Register
-r7	General Purpose Register
-XR	Extended Result Reigster
-FR  Flag Register 				SZVC
-SS	Stack Segment
-SP	Stack Pointer
-IS  Instruction Segment
-IP	Instruction Pointer
-RS	Return Segment
-RP	Return Pointer
+================================================================================
+								 Register File								   
+================================================================================
 
-HARDWARE INSTRUCTIONS:
+	------------------------------------------
+	POS		MNE 	DESCRIPTION
+	------------------------------------------
+	0		r0		General Purpose Register 0
+	1		r1		General Purpose Register 1
+	2		r2		General Purpose Register 2
+	3		r3		General Purpose Register 3 
+	4		r4		General Purpose Register 4
+	5		r5		General Purpose Register 5
+	6		r6		General Purpose Register 6
+	7		r7		General Purpose Register 7
+		
+	8		XR		Extended Result Register
+	9		FR  	Flag Register
+	a		SS		Stack Segment
+	b		SP		Stack Pointer
+	c		IS  	Instruction Segment
+	d		IP		Instruction Pointer
+	e		RS		Return Segment
+	f		RP		Return Pointer
+	------------------------------------------
+
+================================================================================
+							 Hardware Instructions
+================================================================================
+
+	---------------------------------------------------------------------
+	INST OPR(s)		DESCRIPTION
+	---------------------------------------------------------------------
 	mov  D, S		move data from S to D
 	set  D, I		set D to I
 	str  [A], S		store S in A
@@ -54,8 +69,8 @@ HARDWARE INSTRUCTIONS:
 	jnv R          	jump to IS:R if not overflow
 	je  R          	jump to IS:R if equal
 	jne R          	jump to IS:R if not equal
-	js  R          	jump to IS:R if negative
-	jns R          	jump to IS:R if positive
+	js  R          	jump to IS:R if signed
+	jns R          	jump to IS:R if not signed
 	ja  R          	jump to IS:R if "above" greater (unsigned)
 	jna R          	jump to IS:R if "not above" not greater (unsigned)
 	jb  R          	jump to IS:R if "below" less (unsigned)
@@ -64,8 +79,12 @@ HARDWARE INSTRUCTIONS:
 	jng R          	jump to IS:R if not greater (signed)
 	jl  R          	jump to IS:R if less (signed)
 	jnl R          	jump to IS:R if not less (signed)
+	---------------------------------------------------------------------
 
-SOFTWARE INSTRUCTIONS:
+================================================================================
+							 SOFTWARE INSTRUCTIONS
+================================================================================
+	
 	ret				"return"  same as  jmp  RS:RP
 
 
@@ -109,3 +128,50 @@ LABEL
 ORIGIN
 	Tell your compiler where certain instructions are located
 	@ <sliteral>
+
+================================================================================
+								 TEST ASSEMBLY 
+================================================================================
+# copy the contents form array into new_array 
+
+% ARRAY_LENGHTH		4
+% NEW_ARRAY_SEG		1			# segment of the new array
+% NEW_ARRAY_PTR		0xfff0		# pointer of the new array
+
+@ 0x0000
+	Main:	
+		
+		jmp Copy_array
+	hlt
+
+	Copy_array:
+		psh	RS
+		psh RP
+
+		# r1 	Counter 
+		# r2	segment of new array
+		# r3	pointer of new array
+		# r4	pointer of old array
+		# r5 	holds the data to copy
+
+		set  r1, 0
+		set  r2, NEW_ARRAY_SEG
+		set  r3, NEW_ARRAY_PTR
+		set	 r4  array
+		
+		Copy_array_loop:
+			ld   r5, [IS:r4]		# load from old array
+			str  [r2:r3], r5		# store in new array
+			
+			add  r1, 1				# increment counter
+			cmp  r1, ARRAY_LENGHT	# counter == ARRAY_LENGTH ? loop : end
+			
+			je Copy_array_loop_end
+			jmp Copy_array_loop
+		Copy_array_loop_end:
+			pop RS
+			pop RP
+			ret
+			
+array:
+	$ 100, -12, 0b1000_1111, 0xf0fe
