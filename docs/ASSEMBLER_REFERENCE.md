@@ -12,22 +12,24 @@ That means it only accepts a certain amount of input per line.
     <CONSTANT>      <COMMENT> <NEWLINE>
     <LABEL>         <COMMENT> <NEWLINE>
 
-`<COMMENTS>` are not required but can be added at will.
+`<COMMENTS>` are not required but can be added if necessary
 
-Also whitespaces matter. The assembler does not make a difference 
+Whitespaces are important however the assembler does not make a difference 
 between one or more whitespaces BUT it does between one or **none**.
 
     movr0,r0        # this would be not accepted by the assembler
+    %VAR31244       #
+
     mov r0, r0      # this will be accepted by the assembler
-    mov r0,    r0   # this too
+    mov r0,    r0   # 
 
 
 ### COMMENTS
 Comments are prefixed with a HASH and end with NEWLINE.
 They are not interpreted by the assembler.
 
-    mov r0, r1    # this is a comment
-    mov r1, r0    # this is another comment
+    mov r0, r1    # a comment
+    mov r1, r0    # another comment
 ---
 
 ### STATEMENTS
@@ -68,15 +70,15 @@ Escaped characters within a string are:
     0b00001111
     0b0000_1111_0000_1111       # for readabillity with UNDERLINE(_)
     65535
-    -32000              # decimal numbers can be negative
+    -32000                      # decimal numbers can be negative
     0xFF54
     0xabcf
 --- 
 
 ### ORIGIN DIRECTIVES
 Origin-directives tell the assembler where instructions and data are 
-located in file-memory. They are prefixed with an AT followed by a 
-SPACE, 16bit integer-literal and a NEWLINE.
+located within file-memory. They are prefixed with an AT followed by a 
+SPACE, 16bit integer-literal and end with a COMMENT or NEWLINE.
     
     @ <int-literal>
 
@@ -107,10 +109,9 @@ Labels assign a 16bit (relative) address to an identifer.
 ---
 
 ### CONSTANTS
-Constants prefixed by a PERCENT followed by a SPACE, exist 
-only in assembler source-code. They act as absolute-addresses 
-or immediate valueis when assembled - and used.
-Exessive bits are cut off to fit the destination.
+Constants prefixed by a PERCENT followed by a SPACE, identifier,
+SPACE and integer-literal. They act as absolute-addresses or immediate
+values when assembled. Exessive bits are cut off to fit the destination.
 
         % <identifier> <int-literal>
 
