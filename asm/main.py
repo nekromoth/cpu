@@ -1,31 +1,75 @@
 #!/usr/bin/env python3
 
 import sys
+import re
 from lexer import lexfile
 from asm import assemble
+from color import *
 
-
-CW  = "\033[0m"
-CBW = "\033[37;1m"
-CR  = "\033[0;31m"
-CBR = "\033[31;1m"
+def information():
+        print("%sASSEMBLER%s" %(cBW, cW))
+        print("\t%susage:%s" %(cBW, cW))
+        print("\t\t%s%s./main.py  [inputfile] [options]"
+            %(cBW, cW))
+        print("\t%soptions:%s" %(cBW, cW))
+        print("\t\t%s-h  %sdisplay this information"
+            %(cBW, cW))
+        print("\t\t%s-l  %sdisplay additional lexer output"
+            %(cBW, cW))
+        #print("\t\t%s-a  %sdisplay additional assembler output"
+        #    %(cBW, cW))
+        exit()
 
 
 def main():
-    if len(sys.argv) == 1:
-        print("%sASSEMBLER" % CBW)
-        print("\tusage:    %s./main.py  [inputfile]\n" %(CW))
-        exit()
-    else:
-        try:
-            print("%sOpening %s[%s]" %(CBW, CW, sys.argv[1]))
-            with open(sys.argv[1], "r") as f:
-                file = f.read()
-        except FileNotFoundError:
-            print("%sERROR %sfile not found.%s" %(CBR, CR, CW))
-            exit()
-        lexdata = lexfile(file)
-        assemble(lexdata)
+    lexout = False
+    #asmout = False
+    options = ""
+    filearg = ""
 
+    # print information if there are no arguments
+    if len(sys.argv) == 1:
+        print("%sProvide a file.\n" %cBR )
+        information()
+
+    # get arguments
+    else:
+        for arg in sys.argv:
+            if re.match(r"-", arg):
+                options = arg
+            else:
+                filearg = arg
+
+    # "parse" options
+    if re.search(r"h", options):
+        information()
+    if re.search(r"l", options):
+        lexout = True
+    #if re.search(r"a", options):
+    #    asmout = True
+    if filearg == "":
+        information()
+
+    # open 
+    try:
+        print("%sOpening %s[%s]" %(cBW, cW, sys.argv[1]))
+        with open(sys.argv[1], "r") as f:
+            print("\t.")
+            file = f.read()
+    except FileNotFoundError:
+        print("%s\tERROR %sfile not found.%s" %(cBR, cR, cW))
+        exit()
+
+    # lex
+    tokens = []
+    types = []
+    lines = []
+
+    print("%sLexing%s" %(cBW, cW))
+    types, values, lines = lexfile(file, lexout)
+
+    # assemble
+
+    # genate bin
 if __name__ == "__main__": 
     main()

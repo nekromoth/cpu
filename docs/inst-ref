@@ -47,7 +47,7 @@
 	sub  D, I		signed subtraction  D = D - I - C
 	mul  D, S   	signed multiplication  D = D * S
 	mul  D, I		signed multiplication  D = D * I
-	div  D, S		signed division  D = D / S 
+	div  D, S		signed division  D = D / S
 	div  D, I		signed division  D = D / I
 	cmp  S, s		compare registers
 	cmp  S, I		compare register to immediate
