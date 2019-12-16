@@ -1,5 +1,5 @@
 ================================================================================
-								 Register File								   
+								 Register File
 ================================================================================
 
 	------------------------------------------
@@ -8,12 +8,12 @@
 	0		r0		General Purpose Register 0
 	1		r1		General Purpose Register 1
 	2		r2		General Purpose Register 2
-	3		r3		General Purpose Register 3 
+	3		r3		General Purpose Register 3
 	4		r4		General Purpose Register 4
 	5		r5		General Purpose Register 5
 	6		r6		General Purpose Register 6
 	7		r7		General Purpose Register 7
-		
+
 	8		XR		Extended Result Register
 	9		FR  	Flag Register
 	a		SS		Stack Segment
@@ -28,17 +28,17 @@
 							 Hardware Instructions
 ================================================================================
 
-	---------------------------------------------------------------------
+	-----------------------------------------------------------------
 	INST OPR(s)		DESCRIPTION
-	---------------------------------------------------------------------
+	-----------------------------------------------------------------
 	mov  D, S		move data from S to D
 	set  D, I		set D to I
-	str  [A], S		store S in A
-	str  [H:L], S	store S in H:L
-	str  [R], S		store S in IS:R
-	ld   D, [A]		load from A into D
-	ld   D, [H:L]	load from H:L into D
-	ld   D, [R]		load from IS:R into D
+	str  [A], S		store S in [A]
+	str  [H:L], S	store S in [H:L]
+	str  [R], S		store S in [IS:R]
+	ld   D, [A]		load from [A] into D
+	ld   D, [H:L]	load from [H:L] into D
+	ld   D, [R]		load from [IS:R] into D
 	psh  S			push S onto stack
 	pop  D			pop D from stack
 	add  D, S		signed addition  D = D + S + C
@@ -79,14 +79,12 @@
 	jng R          	jump to IS:R if not greater (signed)
 	jl  R          	jump to IS:R if less (signed)
 	jnl R          	jump to IS:R if not less (signed)
-	---------------------------------------------------------------------
+	-----------------------------------------------------------------
 
 ================================================================================
 							 SOFTWARE INSTRUCTIONS
 ================================================================================
-	
-	ret				"return"  same as  jmp  RS:RP
-
+	ret				"return"  same as  "jmp  RS:RP"
 
 PREREQUESITES
 	digits			0123456789

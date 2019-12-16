@@ -1,6 +1,20 @@
 ## ASSEMBLER REFERENCE
 
 
+INSTUCTION
+REGISTER
+INTEGER LITERAL
+STRING LITERAL
+
+STATEMENT
+    * INSTRUCTION
+    * OPERANDs
+        * IDENTIFIER
+            * LABEL
+            * CONSTANT
+        * REGISTER
+        * INTEGER-LITERAL
+
 ### PREFACE
 This assembler is a "per-line" oriented assembler. 
 That means it only accepts a certain amount of input per line.
@@ -86,10 +100,10 @@ SPACE, 16bit integer-literal and end with a COMMENT or NEWLINE.
 ---
 
 ### IDENTIFIERS
-Identifiers start with a letter, subsequent characters
+Identifiers start with a letter or UNDERLINE, subsequent characters
 can be alphanumeric or an UNDERLINE.
     
-    identifier          # valid
+    __identifier        # valid
     Identifier12
     Id3_nt1f13r_
 
@@ -109,9 +123,9 @@ Labels assign a 16bit (relative) address to an identifer.
 ---
 
 ### CONSTANTS
-Constants prefixed by a PERCENT followed by a SPACE, identifier,
-SPACE and integer-literal. They act as absolute-addresses or immediate
-values when assembled. Exessive bits are cut off to fit the destination.
+Constants prefixed by a PERCENT followed by a SPACE, assign a value to 
+an indentifier. They act as absolute-addresses or immediate values when 
+assembled. Exessive bits are cut off to fit the destination.
 
         % <identifier> <int-literal>
 

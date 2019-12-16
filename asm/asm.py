@@ -1,71 +1,45 @@
-#!/usr/bin/env python3
-import sys
+import re
 
-from enum import Enum
+def perror(msg, token, lineno):
+    "print error message"
+    print("\t\033[31;1mERROR\033[0;31m %s [%s] on line %d\033[0m"
+        % (msg, token, lineno))
 
-###############################################################################
-R0 = 0x0
-R1 = 0x1
-R2 = 0x2
-R3 = 0x3
-R4 = 0x4
-R5 = 0x5
-R6 = 0x6
-R7 = 0x7
-XR = 0x8
-FR = 0x9
-SP = 0xA
-SS = 0xB
-IP = 0xC
-IS = 0xD
-RP = 0xE
-RS = 0xF
-###############################################################################
-#								 COLOR LOGGING
-###############################################################################
-def title(msg):
-    "print msg in bold white"
-    print("\033[1;37m" + msg + "\033[0;37m")
+def parseint(i):
+    if   re.match("0b[01_]", i):       return int(re.sub(r"_", "", i), 2)
+    elif re.match("0x[a-fA-F0-9]", i): return int(i, 16)
+    elif re.match("[+-]*[0-9]", i):    return int(i, 10)
 
-def error(msg):
-    "print msg in bold red"
-    print("\033[1;31m" + msg + "\033[0;31m")
+def assemble(lexdata):
+    err = False         # indicates if a error occured during assembly
+    ptr = 0x0000        # points to the current address in file-memory
+    idd = {}            # identifier dictionary
+    #==========================================================================
+    #   PHASE 1
+    #       assign labels to addresses
+    #       allocate data-directives into memory
+    #==========================================================================
+    for i in range(len(lexdata)):
+        ttype = lexdata[i][0]   # token type
+        tdata = lexdata[i][1]   # token value/data
+        tlnno = lexdata[i][2]   # token line number
+        print(ttype, tdata, tlnno)
+        if ttype == "ORIGIN":
+            if lexdata[i + 1][0] == "INTEGER":
+                ptr = parseint(tdata)
+                i += 1
+            else:
+                i += 1
+                err = True
+                perror("expecting integer", tdata, tlnno)
+        elif ttype == "DATA":
+            pass
+        elif ttype == "CONST":
+            pass
+        elif ttype == "LABEL":
+            pass
+        elif ttype == "INSTRUCTION":
+            ptr += 2
 
-###############################################################################
-#									 LEXER
-###############################################################################
-def lexer(raw_lines):
-	"split the input *.asm (raw_lines) file into words (tokens)"
-	for i in range(len(raw_lines):
-		
-	
-###############################################################################
-def parser():
-	"make sence of the individual words the lexer provided"
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
-def main():
-	if len(sys.argv) == 1:
-		error("! Provide file as argument.")
-		exit()
-	
-	try:
-		title("> Opening: [%s]" %sys.argv[1])
-		with open(sys.argv[1], "r") as file:
-			raw_lines = file.readlines()
-		
-	except FileNotFoundError:
-		error("! File [%s] not found.", %sys.argv[1])
-		exit()
-	
-	
-	for i, line in enumerate(raw_lines):
-		print("% 3d: %s" %(i + 1, line), end="")
-
-
-###############################################################################
-if __name__ == "__main__": main()
+        else:
+            pass
