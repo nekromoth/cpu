@@ -23,6 +23,7 @@ Escaped characters within a string are:
     \\  =  BACKSLASH(\)
     \n  =  NEWLINE
     \"  =  QUOTES(")
+---
 
 ### INTEGER LITERALS
 can be Binary, Decimal or Hexadecimal.
@@ -38,7 +39,7 @@ can be Binary, Decimal or Hexadecimal.
 ---
 
 ### ORIGIN DIRECTIVES
-tell the assembler where instructions and data are located within file-memory. 
+tell the assembler where instructions and data are located within file-memory.
 They are prefixed with an AT followed by a 16bit integer.
 
     <@> <int>
@@ -62,7 +63,7 @@ can be alphanumeric or an UNDERLINE.
 ---
 
 ### LABLES
-are identifiers suffixed by a COLON. They assign a 16bit (relative) address 
+are identifiers suffixed by a COLON. They assign a 16bit (relative) address
 to an identifer.
 
     <id><:>
@@ -81,8 +82,9 @@ are prefixed by a PERCENT followed by an idetifier and an integer.
 ---
 
 ### DATA
-can be a sequence or integer or string literals. If needed a label can be placed
+can be a sequence of integer or string literals. If needed a label can be placed
 in front of the data sequence to hold the first entry.
+
     <id>: <int|str>, <int|str>, ..., <int|str>
 
     Data: -34, "Hello World", 0, 0b1111_0000
@@ -92,3 +94,30 @@ in front of the data sequence to hold the first entry.
 
     "Hello World", 0
 ---
+### EXAMPLE
+    # calculate the sum of all items in ARRAY
+
+    % ARRAY_LENGTH 8
+
+    @ 0x0000
+        set r0, ARRAY           # load the address of ARRAY
+        set r1, ARRAY_LENGTH    # load the length of ARRAY
+        # r2 will be our sum register of the calculation
+        # r3 will be the destination from the load instruction
+
+        ld r3 (IS:r0)   # load first item
+
+        loop:   # loop till r1 == 0
+            add r2, r3  # add item to r2
+            add r0, 1   # increment array address
+            sub r1, 1   # decrement array legth
+            cmp r1, 0   # r1 == 0 ?
+            je end      # break if 0
+            jmp loop    # continue loop
+
+        end:
+            hlt         # halt the processor
+
+    @ 0x0100
+        ARRAY: 0, 1, 2, 3, 4, 5, 6, 7
+
