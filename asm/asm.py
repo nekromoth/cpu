@@ -1,73 +1,87 @@
 import re
+from color import *
 
-def perror(msg, token, lineno):
+def perror(msg, token, ttype, lineno):
     "print error message"
-    print("\t\033[31;1mERROR\033[0;31m [%s] %s on line %d\033[0m"
-        % (token, msg, lineno))
+    print("\t%sTYPE ERROR%s %s(%s), %s on line %d%s"
+        % (cBR, cR,  ttype, token, msg, lineno, cW))
 
-def parseint(i):
-    if   re.match("0b[01_]+", i):       return int(re.sub(r"_", "", i), 2)
-    elif re.match("0x[a-fA-F0-9]+", i): return int(i, 16)
-    elif re.match("[+-]*[0-9]+", i):    return int(i, 10)
-
-def assemble(tokens, types, lines, asmout):
+def assemble(types, values, lines):
     err = False         # indicates if a error occured during assembly
     adr = 0             # points to the current address in file-memory
     mem = []            # file-memory (holds data)
     idd = {}            # identifier dictionary
+
     #===========================================================================
     #   PHASE 1
-    #       assign labels to addresses
-    #       allocate data-directives into memory
+    #       assign values to identifiers
+    #       write data into file-memory
     #===========================================================================
-    for i in range(len(tokens)):
+    i = 0
+    while i < len(types):
 
-        if types[i] == "ORIGIN":
+        if "ORIGIN" == types[i]:
             i += 1
             if types[i] == "INTEGER":
-                print("\t@ 0x%04x" % tokens[i])
-                adr = tokens[i]
+                adr = values[i] & 0xFFFF
+                print("\t@ 0x%04x" % adr)
+                i += 1
             else:
-                perror("expecting INTEGER", tokens[i], lines[i])
+                perror("expecting INTEGER", values[i], types[i], lines[i])
+                i += 1
                 err = True
 
-        elif types[i] == "DATA":
+        elif "DATA" == types[i]:
             i += 1
             if types[i] == "IDENTIFIER":
-                print("\t$ %s @ 0x%04x" %(tokens[i], adr))
-                idd[tokens[i]] = adr
-            i += 1
-            while True:
-                if types[i] == "INTEGER":
-                    mem.append(tokens[i])
-                    print("\tint [%d]  @ 0x%04x" %(tokens[i], adr))
-                    adr += 1
-                elif types[i] == "STRING":
-                    start = adr
-                    string = re.sub(r"^\"|\"$", "", tokens[i])
-                    string = re.sub(r"\\\"", "\"", string)
-                    string = re.sub(r"\\\\", r"\\", string)
-                    #string = re.sub(r"\n", "\n", string)
-                    newline = False
-                    for c in string:
-                        # TODO THIS DOESNT WORK YET !!!
-                        # NEWLINE INSERTS AS "\" and "n" not as a single "\n" !!
-                        mem.append(ord(c))
-                        adr += 1
-
-                    end = adr - 1
-                    print("\tstr [%s] @ 0x%04x - 0x%04x" %(string, start, end))
-                    print(mem[adr-1])
-                else:
-                    break
+                print("\t@ 0x%04x  %s$%s <%s>" %(adr, cBW, cW, values[i]))
+                # TODO check identifier assignmement
+                idd[values[i]] = adr
                 i += 1
+            else:
+                print("\t@ 0x%04x  %s$%s " %(adr, cBW, cW))
 
-        elif types[i] == "CONST":
-            pass
-        elif types[i] == "LABEL":
-            pass
-        elif types[i] == "INSTRUCTION":
+        elif types[i] == "INTEGER":
+            mem.append(values[i] & 0xFFFF)
+            print("\t    @ 0x%04x  %sint%s %d "
+                %(adr, cBW, cW, values[i]))
+            adr += 1
+            i += 1
+
+        elif "STRING" == types[i]:
+            start = adr
+            for c in values[i]:
+                mem.append(ord(c) & 0xFF)
+                adr += 1
+            print("\t    @ 0x%04x - 0x%04x  %sstr%s \"%s\" "
+                %(start, adr - 1, cBW, cW, values[i]))
+            i += 1
+
+        elif "CONST" == types[i]:
+            i += 1
+            if types[i] == "IDENTIFIER":
+                i += 1
+                if types[i] == "INTEGER":
+                    print("\t@ ------  %s%%%s <%s> %d" 
+                        %(cBW, cW, values[i-1], values[i]))
+                    # TODO check identifier assignmement
+                    idd[values[i-1]] = values[i]
+                    i += 1
+                else:
+                    perror("expecting INTEGER", values[i], types[i], lines[i])
+                    i +=1
+                    err = True
+            else:
+                perror("expecting IDENTIFIER", values[i], types[i], lines[i])
+                i += 1
+                err = True
+
+        elif "LABEL" == types[i]:
+            print("\t@ 0x%04x  %s:%s <%s> " %(adr, cBW, cW, values[i]))
+            # TODO check identifier assignmement
+            idd[values[i]] = adr
+            i += 1
+
+        elif "INSTRUCTION" == types[i]:
+            print("\t$ [%s] @ 0x%04x" %(values[i], adr))
             adr +=  2
-
-        else:
-            pass

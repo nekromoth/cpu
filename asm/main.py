@@ -22,7 +22,7 @@ def information():
 
 
 def main():
-    lexout = False
+    lexout = True
     #asmout = False
     options = ""
     filearg = ""
@@ -61,15 +61,16 @@ def main():
         exit()
 
     # lex
-    tokens = []
     types = []
+    values = []
     lines = []
-
     print("%sLexing%s" %(cBW, cW))
     types, values, lines = lexfile(file, lexout)
 
     # assemble
+    print("%sAssembling%s" %(cBW, cW))
+    assemble(types, values, lines)
 
     # genate bin
-if __name__ == "__main__": 
+if __name__ == "__main__":
     main()

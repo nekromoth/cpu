@@ -18,13 +18,18 @@ tokens = (
 t_INSTRUCTION =\
     r"mov|set|str|ld|psh|pop|add|sub|mul|div|cmp|and|or|xor|lsh|rsh"\
     r"hlt|jmp|jc|jnc|jv|jnv|je|jne|js|jns|ja|jna|jb|jnb|jg|jng|jl|jn"
-t_IDENTIFIER  = r"[a-zA-Z_][a-zA-Z0-9_]+"
+t_IDENTIFIER  = r"[a-zA-Z_]+[a-zA-Z0-9_]*"
 t_REGISTER    = r"r0|r1|r2|r3|r4|r5|r6|r7|XR|FR|SP|SS|IP|IS|RP|RS"
-t_LABEL       = r"[a-zA-Z_][a-zA-Z0-9_]*:"
 t_CONST       = r"%"
 t_DATA        = r"\$"
 t_ORIGIN      = r"@"
 t_ignore = " [],\t"
+
+
+def t_LABEL(t):
+    r"[a-zA-Z_]+[a-zA-Z0-9_]*:"
+    t.value = re.sub(":", "", t.value)
+    return t
 
 def t_SEMICOLON(t):
     r":"
@@ -47,11 +52,11 @@ def t_INTEGER(t):
     if   re.match("0b[01_]+", t.value):         # binary
         t.value = int(re.sub(r"_", "", t.value), 2)     # remove UNDERLINES
 
-    elif re.match("[+-]*[0-9]+", t.value):      # decimal
-        t.value = int(t.value, 10)
-
     elif re.match("0x[a-fA-F0-9]+", t.value):   # hexadecimal
         t.value = int(t.value, 16)
+
+    elif re.match("[+-]*[0-9]+", t.value):      # decimal
+        t.value = int(t.value, 10)
 
     return t
 
@@ -95,4 +100,3 @@ def lexfile(file, lexout):
         exit()
 
     return types, values, lines
-
