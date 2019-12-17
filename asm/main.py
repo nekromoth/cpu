@@ -2,7 +2,7 @@
 
 import sys
 import re
-from lexer import lexfile
+from lex import lexfile
 from asm import assemble
 from color import *
 
@@ -68,8 +68,8 @@ def main():
     types, values, lines = lexfile(file, lexout)
 
     # assemble
-    print("%sAssembling%s" %(cBW, cW))
-    assemble(types, values, lines)
+    #print("%sAssembling%s" %(cBW, cW))
+    #assemble(types, values, lines)
 
     # genate bin
 if __name__ == "__main__":

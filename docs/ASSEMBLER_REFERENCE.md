@@ -1,48 +1,13 @@
 ## ASSEMBLER REFERENCE
 
-
-INSTUCTION
-REGISTER
-INTEGER LITERAL
-STRING LITERAL
-
-STATEMENT
-    * INSTRUCTION
-    * OPERANDs
-        * IDENTIFIER
-            * LABEL
-            * CONSTANT
-        * REGISTER
-        * INTEGER-LITERAL
-
 ### PREFACE
-This assembler is a "per-line" oriented assembler. 
-That means it only accepts a certain amount of input per line.
-    
-    <COMMENT>       <NEWLINE>
-    <STATEMENT>     <COMMENT> <NEWLINE>
-    <ORIGIN>        <COMMENT> <NEWLINE>
-    <DATADIRECTIVE> <COMMENT> <NEWLINE>
-    <CONSTANT>      <COMMENT> <NEWLINE>
-    <LABEL>         <COMMENT> <NEWLINE>
-
-`<COMMENTS>` are not required but can be added if necessary
-
-Whitespaces are important however the assembler does not make a difference 
-between one or more whitespaces BUT it does between one or **none**.
-
-    movr0,r0        # this would be not accepted by the assembler
-    %VAR31244       #
-
-    mov r0, r0      # this will be accepted by the assembler
-    mov r0,    r0   # 
-
+-
 
 ### COMMENTS
-Comments are prefixed with a HASH and end with NEWLINE.
+-- are prefixed with a HASH and end with NEWLINE.
 They are not interpreted by the assembler.
 
-    mov r0, r1    # a comment
+    mov r0, r1    # comment
     mov r1, r0    # another comment
 ---
 
@@ -51,7 +16,7 @@ Statements contain one instruction and up to three operands.
 A statement ends with a COMMENT or a NEWLINE.
 Operands can be registers, integer-literals, labels or constants.
 
-    <instruction> 
+    <instruction>
     <instruction> <operand>
     <instruction> <operand> <operand>
     <instruction> <operand> <operand> <operand>
@@ -116,7 +81,6 @@ can be alphanumeric or an UNDERLINE.
 Labels assign a 16bit (relative) address to an identifer.
 
     <identifier>:
-        <instuction> <label>
 
     loop:
         jmp loop
@@ -138,8 +102,8 @@ Data-directives prefixed by a DOLLAR-SIGN followed by a SPACE,
 allocate data (literals) in file-memory. The end of the data-directive will 
 be indicated trough either a COMMENT or a NEWLINE.
 Literals are sperated by a COMMA.
-
-    $ <literal>, <literal>, ..., <literal>
+identifier in () not required
+    $ (identifier) <literal>, <literal>, ..., <literal>
     
     $ "Hello World", 0
 ---
@@ -197,3 +161,13 @@ Literals are sperated by a COMMA.
         $ 200
         $ 300, 400
         $ 500, 600, 700, 800
+
+
+    % data_length 8
+        set r0, data_length     # get length of array
+        set r1, data            # get address of array
+
+        ld r2, (IS:r1)          # load first 
+        loop:
+
+    data: 0, 1, 2, 3, 4, 5, 6, 7

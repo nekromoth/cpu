@@ -1,0 +1,73 @@
+Register File
+
+	POS		MNE 	DESCRIPTION
+	------------------------------------------
+	0		r0		General Purpose Register 0
+	1		r1		General Purpose Register 1
+	2		r2		General Purpose Register 2
+	3		r3		General Purpose Register 3
+	4		r4		General Purpose Register 4
+	5		r5		General Purpose Register 5
+	6		r6		General Purpose Register 6
+	7		r7		General Purpose Register 7
+
+	8		XR		Extended Result Register
+	9		FR  	Flag Register
+	a		SS		Stack Segment
+	b		SP		Stack Pointer
+	c		IS  	Instruction Segment
+	d		IP		Instruction Pointer
+	e		RS		Return Segment
+	f		RP		Return Pointer
+	------------------------------------------
+
+Hardware Instructions
+
+	mov  D, S		move data from S to D
+	set  D, I		set D to I
+	str  (A), S		store S in (A)
+	str  (H:L), S	store S in (H:L)
+	str  (R), S		store S in (IS:R)
+	ld   D, (A)		load from (A) into D
+	ld   D, (H:L)	load from (H:L) into D
+	ld   D, (R)		load from (IS:R) into D
+	psh  S			push S onto stack
+	pop  D			pop D from stack
+	add  D, S		signed addition  D = D + S + C
+	add  D, I		signed addition  D = D + I + C
+	sub  D, S		signed subtraction  D = D - S - C
+	sub  D, I		signed subtraction  D = D - I - C
+	mul  D, S   	signed multiplication  D = D * S
+	mul  D, I		signed multiplication  D = D * I
+	div  D, S		signed division  D = D / S
+	div  D, I		signed division  D = D / I
+	cmp  S, s		compare registers
+	cmp  S, I		compare register to immediate
+	and  D, S		logical AND  D = D & S
+	and  D, I		logical AND  D = D & I
+	or   D, S		logical OR  D = D | S
+	or   D, I		logical OR  D = D | I
+	xor  D, S		logical XOR  D = D ^ S
+	xor  D, I		locical XOR  D = D ^ I
+	lsh  D, I		logical left-shift D = D << I
+	rsh  D, I		logical right-shift D = D >> I
+	hlt             halt processor
+	jmp A           jump to A
+	jmp H:L        	jump to H:L
+	jmp R          	jump to IS:R
+	jc  R          	jump to IS:R if carry
+	jnc R          	jump to IS:R if not carry
+	jv  R          	jump to IS:R if overflow
+	jnv R          	jump to IS:R if not overflow
+	je  R          	jump to IS:R if equal
+	jne R          	jump to IS:R if not equal
+	js  R          	jump to IS:R if signed
+	jns R          	jump to IS:R if not signed
+	ja  R          	jump to IS:R if "above" greater (unsigned)
+	jna R          	jump to IS:R if "not above" not greater (unsigned)
+	jb  R          	jump to IS:R if "below" less (unsigned)
+	jnb R          	jump to IS:R if "not below" not less ()
+	jg  R          	jump to IS:R if greater (signed)
+	jng R          	jump to IS:R if not greater (signed)
+	jl  R          	jump to IS:R if less (signed)
+	jnl R          	jump to IS:R if not less (signed)
