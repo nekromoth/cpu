@@ -62,7 +62,7 @@ can be alphanumeric or an UNDERLINE.
     i den ti fier
 ---
 
-### LABLES
+### LABELS
 are identifiers suffixed by a COLON. They assign a 16bit (relative) address
 to an identifer.
 
@@ -83,7 +83,7 @@ are prefixed by a PERCENT followed by an idetifier and an integer.
 
 ### DATA
 can be a sequence of integer or string literals. If needed a label can be placed
-in front of the data sequence to hold the first entry.
+in front of the data sequence to hold the address of the first entry.
 
     <id>: <int|str>, <int|str>, ..., <int|str>
 
@@ -105,12 +105,11 @@ in front of the data sequence to hold the first entry.
         # r2 will be our sum register of the calculation
         # r3 will be the destination from the load instruction
 
-        ld r3 (IS:r0)   # load first item
-
         loop:   # loop till r1 == 0
-            add r2, r3  # add item to r2
-            add r0, 1   # increment array address
-            sub r1, 1   # decrement array legth
+            ld r3 (IS:r0)   # load item from array
+            add r2, r3      # add item to r2
+            add r0, 1       # increment array address
+            sub r1, 1       # decrement array legth
             cmp r1, 0   # r1 == 0 ?
             je end      # break if 0
             jmp loop    # continue loop
