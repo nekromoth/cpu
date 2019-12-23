@@ -68,8 +68,8 @@ def main():
     types, values, lines = lexfile(file, lexout)
 
     # assemble
-    #print("%sAssembling%s" %(cBW, cW))
-    #assemble(types, values, lines)
+    print("%sAssembling%s" %(cBW, cW))
+    assemble(types, values, lines)
 
     # genate bin
 if __name__ == "__main__":

@@ -11,7 +11,6 @@ tokens = (
     "STRING",
     "LABEL",
     "CONST",
-    "DATA",
     "ORIGIN"
 )
 
@@ -19,12 +18,15 @@ t_INSTRUCTION =\
     r"mov|set|str|ld|psh|pop|add|sub|mul|div|cmp|and|or|xor|lsh|rsh"\
     r"hlt|jmp|jc|jnc|jv|jnv|je|jne|js|jns|ja|jna|jb|jnb|jg|jng|jl|jn"
 t_IDENTIFIER  = r"[a-zA-Z_]+[a-zA-Z0-9_]*"
-t_REGISTER    = r"r0|r1|r2|r3|r4|r5|r6|r7|XR|FR|SP|SS|IP|IS|RP|RS"
 t_CONST       = r"%"
-t_DATA        = r"\$"
 t_ORIGIN      = r"@"
-t_ignore = " [],\t"
 
+t_ignore = " (),\t"
+
+
+def t_REGISTER(t):
+    r"r0|r1|r2|r3|r4|r5|r6|r7|XR|FR|SP|SS|IP|IS|RP|RS"
+    return t
 
 def t_LABEL(t):
     r"[a-zA-Z_]+[a-zA-Z0-9_]*:"

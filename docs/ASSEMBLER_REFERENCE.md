@@ -105,7 +105,7 @@ in front of the data sequence to hold the address of the first entry.
         # r2 will be our sum register of the calculation
         # r3 will be the destination from the load instruction
 
-        loop:   # loop till r1 == 0
+        loop:           # loop till r1 == 0
             ld r3 (IS:r0)   # load item from array
             add r2, r3      # add item to r2
             add r0, 1       # increment array address

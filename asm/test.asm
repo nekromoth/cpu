@@ -1,13 +1,7 @@
-@ 0x2345
-$ data 0, 1, 2, 3
-$ data 12
-$ 4, 5, 6, 7
-$ "string"
-$ "c"
-% data -12
-% var1 -13
-% var2 123
-data:
-lbl2:
-lbl3:
-lbl4:
+@ 0x0000
+data: 34, 78, 56, 12
+
+@ 0x0100
+mov XR, RP
+mov FR, r1
+set r5, -12

@@ -1,0 +1,50 @@
+00 DS .. ..     mov  D, S		move data from S to D
+01 D. II II     set  D, I		set D to I
+02 SA AA AA     str  [A], S		store S in [A]
+03 SH L. ..     str  [H:L], S	store S in [H:L]
+04 S. RR RR     str  [R], S		store S in [IS:R]
+05 DA AA AA     ld   D, [A]		load from [A] into D
+06 DH L. ..     ld   D, [H:L]	load from [H:L] into D
+07 D. RR RR     ld   D, [R]		load from [IS:R] into D
+08 .S .. ..     psh  S			push S onto stack
+09 D. .. ..     pop  D			pop D from stack
+
+10 DS .. ..     add  D, S		signed addition  D = D + S + C
+11 D. II II     add  D, I		signed addition  D = D + I + C
+12 DS .. ..     sub  D, S		signed subtraction  D = D - S - C
+13 D. II II     sub  D, I		signed subtraction  D = D - I - C
+14 DS .. ..     mul  D, S   	signed multiplication  D = D * S
+15 D. II II     mul  D, I		signed multiplication  D = D * I
+16 DS .. ..     div  D, S		signed division  D = D / S
+17 D. II II     div  D, I		signed division  D = D / I
+18 Ss .. ..     cmp  S, s		compare registers
+19 S. II II     cmp  S, I		compare register to immediate
+1a DS .. ..     and  D, S		logical AND  D = D & S
+1b D. II II     and  D, I		logical AND  D = D & I
+1c DS .. ..     or   D, S		logical OR  D = D | S
+1d D. II II     or   D, I		logical OR  D = D | I
+1e DS .. ..     xor  D, S		logical XOR  D = D ^ S
+1f D. II II     xor  D, I		locical XOR  D = D ^ I
+20 D. .. .I     lsh  D, I		logical left-shift D = D << I
+21 D. .. .I     rsh  D, I		logical right-shift D = D >> I
+
+30 .. .. ..     hlt             halt processor
+31 .A AA AA     jmp A           jump to A
+32 HL .. ..     jmp H:L        	jump to H:L
+33 .. RR RR     jmp R          	jump to IS:R
+34 .. RR RR     jc  R          	jump to IS:R if carry
+35 .. RR RR     jnc R          	jump to IS:R if not carry
+36 .. RR RR     jv  R          	jump to IS:R if overflow
+37 .. RR RR     jnv R          	jump to IS:R if not overflow
+38 .. RR RR     je  R          	jump to IS:R if equal
+39 .. RR RR     jne R          	jump to IS:R if not equal
+3a .. RR RR     js  R          	jump to IS:R if signed
+3b .. RR RR     jns R          	jump to IS:R if not signed
+3c .. RR RR     ja  R          	jump to IS:R if "above" greater (unsigned)
+3d .. RR RR     jna R          	jump to IS:R if "not above" not greater (unsigned)
+3e .. RR RR     jb  R          	jump to IS:R if "below" less (unsigned)
+3f .. RR RR     jnb R          	jump to IS:R if "not below" not less (:)
+40 .. RR RR     jg  R          	jump to IS:R if greater (signed)
+41 .. RR RR     jng R          	jump to IS:R if not greater (signed)
+42 .. RR RR     jl  R          	jump to IS:R if less (signed)
+43 .. RR RR     jnl R          	jump to IS:R if not less (signed)
